@@ -7,7 +7,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,7 @@
     "inquirer": "^9.1.4"
   },
   "devDependencies": {
-    "inquirer": "^7.1.0"
+    "inquirer": "^7.1.0",
+    "jest": "^29.4.3"
   }
 }

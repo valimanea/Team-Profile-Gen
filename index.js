@@ -15,6 +15,7 @@ const render = require("./src/page-template.js");
 const team = [];
 let menuOpt = "";
 
+//functions to validate each input type
 function validateName(name) {
   if (name.length <= 30 && name.length > 0) {
     return true;
@@ -43,6 +44,7 @@ function validateGithub(github) {
   return chalk.red("Please enter a valid GitHub username!");
 }
 
+//function to get manager data
 const addManagerData = () => {
   inquirer
     .prompt([
@@ -77,19 +79,20 @@ const addManagerData = () => {
       },
     ])
     .then((response) => {
-      console.log(response);
+      //   console.log(response);
       const manager = new Manager(
-        response.name,
+        capitalizeWords(response.name),
         response.id,
         response.email,
         response.officeNumber
       );
       team.push(manager);
-      console.log(team);
+      //   console.log(team);
       MenuInput();
     });
 };
 
+//function to get enginer data
 const addEngineerData = () => {
   inquirer
     .prompt([
@@ -121,61 +124,63 @@ const addEngineerData = () => {
     ])
     .then((response) => {
       const engineer = new Engineer(
-        response.name,
+        capitalizeWords(response.name),
         response.id,
         response.email,
         response.github
       );
-      console.log(engineer);
+      //   console.log(engineer);
       team.push(engineer);
-      console.log(team);
+      //   console.log(team);
       MenuInput();
     });
 };
 
-  const addInternData = () => {
-    inquirer
-      .prompt([
-        {
-          type: "input",
-          name: "name",
-          message:
-            "Enter the intern’s name: " + chalk.italic("(1-30 characters)"),
-          validate: validateName,
-        },
-        {
-          type: "input",
-          name: "id",
-          message: "Enter the ntern’s ID: " + chalk.italic("(numbers only)"),
-          validate: validateNumber,
-        },
-        {
-          type: "input",
-          name: "email",
-          message: "Enter the intern’s email address: ",
-          validate: validateEmail,
-        },
-        {
-          type: "input",
-          name: "school",
-          message: "Enter the intern’s school: ",
-          validate: validateName,
-        },
-      ])
-      .then((response) => {
-        const intern = new Intern(
-          response.name,
-          response.id,
-          response.email,
-          response.school
-        );
-        console.log(intern);
-        team.push(intern);
-        console.log(team);
-        MenuInput();
-      });
-  };
+//function to get intern data
+const addInternData = () => {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "name",
+        message:
+          "Enter the intern’s name: " + chalk.italic("(1-30 characters)"),
+        validate: validateName,
+      },
+      {
+        type: "input",
+        name: "id",
+        message: "Enter the ntern’s ID: " + chalk.italic("(numbers only)"),
+        validate: validateNumber,
+      },
+      {
+        type: "input",
+        name: "email",
+        message: "Enter the intern’s email address: ",
+        validate: validateEmail,
+      },
+      {
+        type: "input",
+        name: "school",
+        message: "Enter the intern’s school: ",
+        validate: validateName,
+      },
+    ])
+    .then((response) => {
+      const intern = new Intern(
+        capitalizeWords(response.name),
+        response.id,
+        response.email,
+        response.school
+      );
+      //   console.log(intern);
+      team.push(intern);
+      //   console.log(team);
+      MenuInput();
+    });
+};
 
+//function to act based on menu
 function menuAction() {
   switch (menuOpt) {
     case "Add an engineer":
@@ -187,10 +192,12 @@ function menuAction() {
       break;
 
     case "Finish building the team":
-      console.log("team complete");
+      console.log(chalk.black.bgGreenBright("Team complete"));
+      generateHTMLFile();
   }
 }
 
+//get menu input from user
 const MenuInput = () => {
   inquirer
     .prompt([
@@ -219,5 +226,29 @@ const MenuInput = () => {
       menuAction();
     });
 };
+
+//generate HTML file
+const generateHTMLFile = () => {
+  const content = render(team);
+  if (!fs.existsSync(OUTPUT_DIR)) {
+    fs.mkdirSync(OUTPUT_DIR);
+  }
+
+  fs.writeFileSync(outputPath, content, (err) => {
+    if (err) {
+      console.log(chalk.bold.red("HTML file could not be generated...", err));
+    }
+    console.log(chalk.bold.green("New HTML file successfully generated!"));
+  });
+};
+
+//change first letter of each word to capital
+function capitalizeWords(str) {
+  return str
+    .toLowerCase()
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
 
 addManagerData();
