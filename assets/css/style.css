@@ -1,0 +1,78 @@
+#navbar {
+    background-color: rgba(48,165,198,255);
+    color: #052c65;
+    font-size: 50px;
+}
+
+main {
+    width: fit-content;
+    max-width: 70%;
+    margin: 0 auto;
+    margin-bottom: 50px;
+}
+
+
+.card {
+    display: inline-block;
+    font-size: 14px;
+    margin: 10px;
+    border-radius: 5px;
+    width: 220px;
+    height: auto;
+    vertical-align: top;
+    overflow-wrap: break-word;
+}
+
+.card h2 {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+.card h3 {
+    text-align: center;
+    font-weight: 300;
+    margin: 0;
+}
+
+.card li {
+    margin-top: 0;
+}
+
+.card-header {
+    color: white;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    padding: 10px;
+}
+
+.card-body {
+    border-bottom-left-radius: 18px;
+    border-bottom-right-radius: 18px;
+    padding: 10px;
+}
+
+.manager .card-header {
+    background: rgba(100,198,199,255);
+}
+
+.engineer .card-header {
+    background: rgba(249,150,32,255);
+}
+
+.intern .card-header {
+    background: rgba(239,102,150,255);
+}
+
+.manager {
+    border: solid 3px rgba(100,198,199,255);
+}
+
+.engineer {
+    border: solid 3px rgba(249,150,32,255);
+}
+
+.intern {
+    border: solid 3px rgba(239,102,150,255);
+}
